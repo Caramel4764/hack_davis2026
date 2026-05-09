@@ -8,7 +8,7 @@
 class Probability {
  private:
   // DESCRIPTION
-  double ExactScoreProbability(size_t score, Test &test);
+  double OneAnswerScoreProbability(size_t score, Test &test);
 
  public:
   // DESCRIPTION
