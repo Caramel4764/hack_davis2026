@@ -23,6 +23,11 @@ double Probability::OneAnswerScoreProbability(size_t score, Test &test) {
   return probability;
 }
 
+  // DESCRIPTION
+  double TwoAnswerScoreProbability(size_t score, Test &test) {
+    // Code Here
+  }
+
 // Public Methods
 
 Test Probability::CreateTest(size_t num_options, size_t num_correct, size_t num_questions) {
@@ -45,6 +50,11 @@ std::vector<double> Probability::CalculateTestResults(Test &test) {
     for (size_t i = 0; i <= test.num_questions; i++) {
       probabilities.push_back(OneAnswerScoreProbability(i, test));
     }
+  }
+
+  // Test with two correct answers per question
+  if (test.num_correct == 2) {
+    // Code Here
   }
 
   return probabilities;
