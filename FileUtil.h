@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <fstream>
 
-
 #ifndef FILE_UTIL_H
 #define FILE_UTIL_H
 
@@ -10,6 +9,7 @@ class FileUtil {
   private:
   public:
     static bool DoesFileExist(std::string filename);
+    static bool OpenStream(std::fstream& file, std::string filename);
 };
 
 #endif
