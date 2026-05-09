@@ -5,7 +5,7 @@ class Probability {
     /** Takes vector of tests
     *
     */
-    double BasicTest();
+    //double BasicTest();
   public:
     Probability();
     /** Calculates the cutoff based on vectore result
