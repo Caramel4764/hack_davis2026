@@ -8,9 +8,9 @@ struct Test {
   size_t num_correct;
   size_t num_questions;
 
-  double CorrectChance() {
-    return num_options ? double(correct_options) / double(num_options) : -1;
+  double CorrectChance(int guessed = 0, int correct = 0) {
+    return double(num_correct - correct) / double(num_options - guessed);
   }
-}
+};
 
 #endif

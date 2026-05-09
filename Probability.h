@@ -8,17 +8,17 @@
 class Probability {
  private:
   // DESCRIPTION
-  double ExactScoreProbability(Test test);
+  double ExactScoreProbability(size_t score, Test &test);
 
  public:
   // DESCRIPTION
   Test CreateTest(size_t num_options, size_t num_correct, size_t num_questions);
 
   // DESCRIPTION
-  vector<double> CalculateTestResults(Test test);
+  std::vector<double> CalculateTestResults(Test &test);
 
   // DESCRIPTION
-  double CutoffProbability(int cutoff, vector<double> probabilities);
+  double CutoffProbability(int cutoff, std::vector<double> probabilities);
 };
 
 #endif
