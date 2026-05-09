@@ -11,6 +11,10 @@ struct Test {
   double CorrectChance(int guessed = 0, int correct = 0) {
     return double(num_correct - correct) / double(num_options - guessed);
   }
+
+  double IncorrectChance(int guessed = 0, int correct = 0) {
+    return 1 - (double(num_correct - correct) / double(num_options - guessed));
+  }
 };
 
 #endif

@@ -4,21 +4,29 @@
 
 // Private Methods
 
-double Probability::ExactScoreProbability(size_t score, Test &test) {
-  double total_prob = 0;
-  size_t cur_score = 0;
+double Probability::OneAnswerScoreProbability(size_t score, Test &test) {
+  // Impossible to get higher score than # of questions
+  if (score > test.num_questions)
+    return 0;
 
-  size_t index = 0;
-  double cur_prob = 0;
-  while (cur_score < score && index < test.num_questions) {
-    cur_prob *= test.CorrectChance();
+  double probability = 1;
 
-    (void)index;
-    (void)total_prob;
+  // Probability of getting {score} correct
+  for (size_t i = 0; i < score; i++) {
+    probability *= test.CorrectChance();
+  }
+  // Probability of getting {# of questions - score} incorrect
+  for (size_t i = score; i < test.num_questions; i++) {
+    probability *= test.IncorrectChance();
   }
 
-  return total_prob;
+  return probability;
 }
+
+  // DESCRIPTION
+  double TwoAnswerScoreProbability(size_t score, Test &test) {
+    // Code Here
+  }
 
 // Public Methods
 
@@ -35,9 +43,21 @@ Test Probability::CreateTest(size_t num_options, size_t num_correct, size_t num_
 }
 
 std::vector<double> Probability::CalculateTestResults(Test &test) {
-  // double correct_chance = CorrectChance(num_options, num_correct);
+  std::vector<double> probabilities;
 
-  return std::vector<double>();
+  // Test with only one correct answer per question
+  if (test.num_correct == 1) {
+    for (size_t i = 0; i <= test.num_questions; i++) {
+      probabilities.push_back(OneAnswerScoreProbability(i, test));
+    }
+  }
+
+  // Test with two correct answers per question
+  if (test.num_correct == 2) {
+    // Code Here
+  }
+
+  return probabilities;
 }
 
 double Probability::CutoffProbability(int cutoff, std::vector<double> probabilities) {
