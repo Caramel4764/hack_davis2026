@@ -21,6 +21,6 @@ class Probability {
     /** 
     */
     double ComplexTest();
-}
+};
 
 #endif
