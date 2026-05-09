@@ -1,5 +1,8 @@
 #ifndef PROBABILITY_H
 #define PROBABILITY_H
+
+#include <vector>
+
 class Probability {
   private:
     /** Takes vector of tests
