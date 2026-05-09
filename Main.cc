@@ -3,6 +3,7 @@
 #include <string.h>
 #include <limits>
 #include <ctype.h>
+#include <fstream>
 
 #include "Probability.h"
 #include "FileUtil.h"
@@ -44,26 +45,35 @@ int main(int argc, char* argv[]) {
   }
 
   char should_save;
+  char should_overwrite;
   cout << "Would you like to save? ([Y]es [N]o):\n";
-  while (!(cin >> should_save) || (ToUpper(should_save) != 'Y' && ToUpper(should_save) != 'N')) {
+  while (
+    !(cin >> should_save) || 
+    (ToUpper(should_save) != 'Y' && ToUpper(should_save) != 'N') ||
+    (should_overwrite && should_overwrite == false)
+  ) {
     cout << "Enter Y or N\n";
-    //cout << "Test: "<<should_save<<": "<< ToUpper(should_save)<< "Equals: "<<(ToUpper(should_save)=='Y');
   }
-  if (ToUpper(should_save) == 'Y') {
-    std::string file_name;
-    cout << "Enter a filename:\n";
-    cin >> file_name;
-    // does file exist? Ask to overwrite
-    char should_overwrite;
-    if (FileUtil::DoesFileExist(file_name)) {
-      cout << "" << file_name << " already exists. Do you want to overwrite? ([Y]es [N]o):\n";
-      while (!(cin >> should_overwrite)) {
+  while (ToUpper(should_save) == 'Y' && ToUpper(should_overwrite == 'N'))
+    if (ToUpper(should_save) == 'Y') {
+      std::string file_name;
+      std::fstream file;
+      cout << "Enter a filename:\n";
+      cin >> file_name;
+      // does file exist? Ask to overwrite
+      if (FileUtil::DoesFileExist(file_name)) {
+        cout << "" << file_name << " already exists. Do you want to overwrite? ([Y]es [N]o):\n";
+        while (!(cin >> should_overwrite)) {
+          cout << "Enter Y or N"\n;
+        }
         if (ToUpper(should_overwrite) == 'Y') {
           //overwrite
+          FileUtil::OpenFile(file_name);
         }
       }
+      file<<"Content goes here\n";
+      file.close();
+      // save to file
     }
-    // save to file
-  }
   return 0;
 }
