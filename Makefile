@@ -1,11 +1,16 @@
+COMPILER_FLAG = -Wall -Werror
+
 run: ProbabilityCalculator.out
 	./ProbabilityCalculator.out
 
-ProbabilityCalculator.out: main.cc Probability.h Probability.o
-	g++ -Wall -Werror main.cc Probability.cc -o ProbabilityCalculator.out
+ProbabilityCalculator.out: Main.cc Probability.o FileUtil.o
+	g++ ${COMPILER_FLAG} Main.cc Probability.o FileUtil.o -o ProbabilityCalculator.out
 
 Probability.o: Probability.h Probability.cc
-	g++ -Wall -Werror -c Probability.cc
+	g++ ${COMPILER_FLAG} -c Probability.cc
+
+FileUtil.o: FileUtil.h FileUtil.cc
+	g++ ${COMPILER_FLAG} -c FileUtil.cc
 
 clean:
 	rm -f Probability.out

@@ -2,23 +2,23 @@
 #include <iostream>
 #include <string.h>
 #include <limits>
+#include <ctype.h>
 
 #include "Probability.h"
-
+#include "FileUtil.h"
 
 using std::cout;
 using std::cin;
+using std::toupper;
 
 void ClearStream() {
   cin.clear();
   cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
+char ToUpper(char letter) {
+  return char(toupper(letter));
+}
 int main(int argc, char* argv[]) {
-  /*if (argc != 5) {
-    // test name, options per question, correct, number of questions
-    std::cout << "Useage: " << argv[0] << " <Options per Question> <Correct per Question> <Number of Questions> <Test Name>";
-    return 1;
-  }*/
   int num_options_per_questions;
   int num_questions;
   int num_correct_answers;
@@ -43,25 +43,27 @@ int main(int argc, char* argv[]) {
     ClearStream();
   }
 
-
-  /**
-  do {
-    cout << "Enter the test name\n";
-    cin >> test_name;
-  } while (num_correct_answers > 0);
- */
-  char should_save = '';
+  char should_save;
   cout << "Would you like to save? ([Y]es [N]o):\n";
-  while (!(cin >> should_save) || should_save != 'Y' || should_save != 'N' || should_save != 'y' || should_save != 'n') {
+  while (!(cin >> should_save) || (ToUpper(should_save) != 'Y' && ToUpper(should_save) != 'N')) {
     cout << "Enter Y or N\n";
+    //cout << "Test: "<<should_save<<": "<< ToUpper(should_save)<< "Equals: "<<(ToUpper(should_save)=='Y');
   }
-  if (should_save == 'Y' || should_save == 'y') {
+  if (ToUpper(should_save) == 'Y') {
     std::string file_name;
     cout << "Enter a filename:\n";
     cin >> file_name;
     // does file exist? Ask to overwrite
+    char should_overwrite;
+    if (FileUtil::DoesFileExist(file_name)) {
+      cout << "" << file_name << " already exists. Do you want to overwrite? ([Y]es [N]o):\n";
+      while (!(cin >> should_overwrite)) {
+        if (ToUpper(should_overwrite) == 'Y') {
+          //overwrite
+        }
+      }
+    }
     // save to file
-    //
   }
   return 0;
 }
