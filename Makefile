@@ -1,8 +1,8 @@
-run: Probability.out
-	./Probability
+run: ProbabilityCalculator.out
+	./ProbabilityCalculator.out
 
-Probability.out: Probability.h Probability.o
-	g++ -Wall -Werror Probability.cc -o Probability.out
+ProbabilityCalculator.out: Probability.h Probability.o
+	g++ -Wall -Werror main.cc Probability.cc -o ProbabilityCalculator.out
 
 Probability.o: Probability.h Probability.cc
 	g++ -Wall -Werror -c Probability.cc
