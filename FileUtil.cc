@@ -1,6 +1,6 @@
 #include <string>
 #include <fstream>
-
+#include <iostream>
 #include "FileUtil.h"
 
 bool FileUtil::DoesFileExist(std::string filename) {
@@ -15,7 +15,9 @@ bool FileUtil::DoesFileExist(std::string filename) {
 
 bool FileUtil::OpenFile(std::fstream& file, std::string filename) {
   file.open(filename);
-  if (!file_var) {
+  if (!file) {
     std::cerr << "Error: cannot open "<<filename;
+    return false;
   }
+  return true;
 }

@@ -64,11 +64,11 @@ int main(int argc, char* argv[]) {
       if (FileUtil::DoesFileExist(file_name)) {
         cout << "" << file_name << " already exists. Do you want to overwrite? ([Y]es [N]o):\n";
         while (!(cin >> should_overwrite)) {
-          cout << "Enter Y or N"\n;
+          cout << "Enter Y or N\n";
         }
         if (ToUpper(should_overwrite) == 'Y') {
           //overwrite
-          FileUtil::OpenFile(file_name);
+          FileUtil::OpenFile(file, file_name);
         }
       }
       file<<"Content goes here\n";

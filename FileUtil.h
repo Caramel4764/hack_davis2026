@@ -9,7 +9,7 @@ class FileUtil {
   private:
   public:
     static bool DoesFileExist(std::string filename);
-    static bool OpenStream(std::fstream& file, std::string filename);
+    static bool OpenFile(std::fstream& file, std::string filename);
 };
 
 #endif
