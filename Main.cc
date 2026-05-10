@@ -10,6 +10,7 @@
 
 #include "Probability.h"
 #include "FileUtil.h"
+#include "Test.h"
 
 using std::cout;
 using std::cin;
@@ -50,13 +51,19 @@ void PromptYN(char &answer) {
     ClearStream();
   }
 }
-void PrintResult(int& num_options_per_questions, int& num_questions, int& num_correct_answers) {
+void PrintResult(int& num_options_per_questions, int& num_questions, int& num_correct_answers, int& cutoff) {
+  //Probability::BinomialCoefficient(num_questions, num_options_per_questions);
+  //Probability Calculator;
+  TestInfo TestObj = Probability::CreateTest(num_options_per_questions, num_correct_answers, num_questions);
+  std::vector<double> res = Probability::CalculateTestResults(TestObj);
+  double prob = Probability::CutoffProbability(cutoff, res);
   cout << " |———————————————————————————————————————|\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Options Per Question  " << "| " << PrintCentered(num_options_per_questions, DISPLAY_NUM) << " |\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Total Questions  " << "| " << PrintCentered(num_questions, DISPLAY_NUM) << " |\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Correct Answer Per Questions  " << "| " << PrintCentered(num_correct_answers, DISPLAY_NUM) << " |\n";
+  cout << std::left << std::setw(DISPLAY_W) << " | Cutoff  " << "| " << PrintCentered(cutoff, DISPLAY_NUM) << " |\n";
   cout << " |———————————————————————————————————————|\n";
-  cout << std::left << std::setw(DISPLAY_W) << " | Probability  " << " |\n";
+  cout << std::left << std::setw(DISPLAY_W) << " | Probability  " << prob <<" |\n";
   cout << " |———————————————————————————————————————|\n";
 }
 void PromptChar(char &ans, std::vector<char> valid_inputs) {
@@ -83,6 +90,7 @@ int main(int argc, char* argv[]) {
   int num_options_per_questions;
   int num_questions;
   int num_correct_answers;
+  int cutoff;
   char mode = '\0';
   std::string file_name;
   std::fstream file;
@@ -108,8 +116,13 @@ int main(int argc, char* argv[]) {
       ClearStream();
     }
 
+    cout << "Enter the cutoff (At least how many correct)\n";
+    while (!(cin >> cutoff) || cutoff <= 0) {
+      cout << "Invalid cutoff. Must be a nonnegative whole number:\n";
+      ClearStream();
+    }
     // Calculate result
-    PrintResult(num_options_per_questions, num_questions, num_correct_answers);
+    PrintResult(num_options_per_questions, num_questions, num_correct_answers, cutoff);
 
     char should_save;
     char should_overwrite = '\0';
@@ -122,7 +135,6 @@ int main(int argc, char* argv[]) {
     // we want to save
     // we have duplicate save file and do not want to delete
     if (CompareCaseInsensitively(should_save, 'y')) {
-      //cout<<"File already exists: " << file_alr_exist << "\n!should_overwrite: "<<!should_overwrite << "\nToUpper(should_overwrite == 'Y')): " << (ToUpper(should_overwrite) == 'Y');
       while (file_alr_exist && (!should_overwrite || ToUpper(should_overwrite) == 'N')) {
         cout << "Enter a filename:\n";
         cin >> file_name;
@@ -131,23 +143,25 @@ int main(int argc, char* argv[]) {
         if (file_alr_exist) {
           cout << "" << file_name << " already exists. Do you want to overwrite? ([Y]es [N]o):\n";
           PromptYN(should_overwrite);
-          if (CompareCaseInsensitively(should_overwrite, 'y')) {
-            // overwrite
-            FileUtil::OpenFile(file, file_name);
-          }
         }
-        FileUtil::OpenFile(file, file_name);
-        file << "Content goes here\n";
-        file.close();
+        if ((CompareCaseInsensitively(should_save, 'y') && CompareCaseInsensitively(should_overwrite, 'y')) || (!file_alr_exist && should_save)) {
+          FileUtil::ForceOpenFile(file, file_name);
+          file << num_options_per_questions <<"\n";
+          file << num_questions << "\n";
+          file << num_correct_answers << "\n";
+          file << cutoff << "\n";
+          file.close();
+        }
+
       }
     }
   } else if (CompareCaseInsensitively(mode, 'r')) {
     //ask filename
     cout << "Enter a filename:\n";
-      cout<<"test\n";
+      cout << "test\n";
 
     cin >> file_name;
-      cout<<"test\n";
+      cout << "test\n";
 
     if (!FileUtil::DoesFileExist(file_name)) {
       std::cerr << "This file does not exist.";
@@ -157,21 +171,24 @@ int main(int argc, char* argv[]) {
       std::string str_num_options_per_questions;
       std::string str_num_questions;
       std::string str_num_correct_answers;
+      std::string str_cutoff;
       std::getline(file, str_num_options_per_questions, '\n');
       std::getline(file, str_num_questions, '\n');
       std::getline(file, str_num_correct_answers, '\n');
-      cout<<"str_num_options_per_questions: " << str_num_options_per_questions<<"\n";
-      cout<<"str_num_questions: " << str_num_questions<<"\n";
-      cout<<"str_num_correct_answers: " << str_num_correct_answers<<"\n";
+      std::getline(file, str_cutoff, '\n');
+      //cout<<"str_num_options_per_questions: " << str_num_options_per_questions<<"\n";
+      //cout<<"str_num_questions: " << str_num_questions<<"\n";
+      //cout<<"str_num_correct_answers: " << str_num_correct_answers<<"\n";
       try {
         num_options_per_questions = std::stoi(str_num_options_per_questions);
         num_questions = std::stoi(str_num_questions);
         num_correct_answers = std::stoi(str_num_correct_answers);
+        str_cutoff = std::stoi(str_cutoff);
       } catch (...) {
         std::cerr << "Unreadable file.";
         return 1;
       }
-      PrintResult(num_options_per_questions, num_questions, num_correct_answers);
+      PrintResult(num_options_per_questions, num_questions, num_correct_answers, cutoff);
     }
   }
 

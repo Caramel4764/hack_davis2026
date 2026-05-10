@@ -13,7 +13,7 @@ bool FileUtil::DoesFileExist(std::string filename) {
   return false;
 }
 
-bool FileUtil::OpenFile(std::fstream& file, std::string filename) {
+bool FileUtil::ForceOpenFile(std::fstream& file, std::string filename) {
   //file.open(filename);
   file.open(filename, std::fstream::out | std::fstream::trunc);
   if (!file) {
