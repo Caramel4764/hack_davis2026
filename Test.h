@@ -3,9 +3,9 @@
 
 #include <exception>
 
-struct Test {
-  size_t num_options;
+struct TestInfo {
   size_t num_correct;
+  size_t num_options;
   size_t num_questions;
 
   double CorrectChance(int guessed = 0, int correct = 0) {

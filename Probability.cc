@@ -4,7 +4,7 @@
 
 // Private Methods
 
-double Probability::OneAnswerScoreProbability(size_t score, Test &test) {
+double Probability::OneAnswerScoreProbability(size_t score, TestInfo &test) {
   // Impossible to get higher score than # of questions
   if (score > test.num_questions)
     return 0;
@@ -25,48 +25,47 @@ double Probability::OneAnswerScoreProbability(size_t score, Test &test) {
   return probability;
 }
 
-  // DESCRIPTION
-  double Probability::TwoAnswerScoreProbability(size_t score, Test &test) {
-    if (score > test.num_questions * 2)
-      return 0;
+double Probability::TwoAnswerScoreProbability(size_t score, TestInfo &test) {
+  if (score > test.num_questions * 2)
+    return 0;
 
-    double total_prob = 1;
-    double cur_prob = 1;
-    (void)cur_prob;
+  double total_prob = 1;
+  double cur_prob = 1;
+  (void)cur_prob;
 
-    // Code Here
+  // TODO: Code Here
 
-    return total_prob;
-  }
+  return total_prob;
+}
 
 // Public Methods
 
 unsigned long long Probability::BinomialCoefficient(int n, int k) {
-    double coefficient = 1;
+  double coefficient = 1;
 
-    // Minimize number of iterations
-    int iter = (n - k < k) ? n - k : k;
+  // Minimize number of iterations
+  int iter = (n - k < k) ? n - k : k;
 
-    for (int i = 0; i < iter; i++) {
-      coefficient *= double(n - i) / double(i + 1);
-    }
-
-    return (unsigned long long)coefficient;
+  for (int i = 0; i < iter; i++) {
+    coefficient *= double(n - i) / double(i + 1);
   }
 
-Test Probability::CreateTest(size_t num_options, size_t num_correct, size_t num_questions) {
+  return (unsigned long long)coefficient;
+}
+
+TestInfo Probability::CreateTest(size_t num_correct, size_t num_options, size_t num_questions) {
   if (!num_options)
     throw std::invalid_argument("Number of options must be non-zero");
 
-  Test test;
-  test.num_options = num_options;
+  TestInfo test;
   test.num_correct = num_correct;
+  test.num_options = num_options;
   test.num_questions = num_questions;
 
   return test;
 }
 
-std::vector<double> Probability::CalculateTestResults(Test &test) {
+std::vector<double> Probability::CalculateTestResults(TestInfo &test) {
   std::vector<double> probabilities;
 
   // Test with one correct answer per question

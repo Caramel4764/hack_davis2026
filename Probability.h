@@ -8,23 +8,23 @@
 class Probability {
  private:
   // DESCRIPTION
-  double OneAnswerScoreProbability(size_t score, Test &test);
+  static double OneAnswerScoreProbability(size_t score, TestInfo &test);
 
   // DESCRIPTION
-  double TwoAnswerScoreProbability(size_t score, Test &test);
+  static double TwoAnswerScoreProbability(size_t score, TestInfo &test);
 
  public:
   // DESCRIPTION
   static unsigned long long BinomialCoefficient(int n, int k);
 
   // DESCRIPTION
-  Test CreateTest(size_t num_options, size_t num_correct, size_t num_questions);
+  static TestInfo CreateTest(size_t num_correct, size_t num_options, size_t num_questions);
 
   // DESCRIPTION
-  std::vector<double> CalculateTestResults(Test &test);
+  static std::vector<double> CalculateTestResults(TestInfo &test);
 
   // DESCRIPTION
-  double CutoffProbability(int cutoff, std::vector<double> probabilities);
+  static double CutoffProbability(int cutoff, std::vector<double> probabilities);
 };
 
 #endif
