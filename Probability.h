@@ -15,6 +15,9 @@ class Probability {
 
  public:
   // DESCRIPTION
+  static unsigned long long BinomialCoefficient(int n, int k);
+
+  // DESCRIPTION
   Test CreateTest(size_t num_options, size_t num_correct, size_t num_questions);
 
   // DESCRIPTION

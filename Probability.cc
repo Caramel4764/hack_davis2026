@@ -20,15 +20,39 @@ double Probability::OneAnswerScoreProbability(size_t score, Test &test) {
     probability *= test.IncorrectChance();
   }
 
+  probability *= BinomialCoefficient(test.num_questions, score);
+
   return probability;
 }
 
   // DESCRIPTION
-  double TwoAnswerScoreProbability(size_t score, Test &test) {
+  double Probability::TwoAnswerScoreProbability(size_t score, Test &test) {
+    if (score > test.num_questions * 2)
+      return 0;
+
+    double total_prob = 1;
+    double cur_prob = 1;
+    (void)cur_prob;
+
     // Code Here
+
+    return total_prob;
   }
 
 // Public Methods
+
+unsigned long long Probability::BinomialCoefficient(int n, int k) {
+    double coefficient = 1;
+
+    // Minimize number of iterations
+    int iter = (n - k < k) ? n - k : k;
+
+    for (int i = 0; i < iter; i++) {
+      coefficient *= double(n - i) / double(i + 1);
+    }
+
+    return (unsigned long long)coefficient;
+  }
 
 Test Probability::CreateTest(size_t num_options, size_t num_correct, size_t num_questions) {
   if (!num_options)
@@ -45,16 +69,17 @@ Test Probability::CreateTest(size_t num_options, size_t num_correct, size_t num_
 std::vector<double> Probability::CalculateTestResults(Test &test) {
   std::vector<double> probabilities;
 
-  // Test with only one correct answer per question
+  // Test with one correct answer per question
   if (test.num_correct == 1) {
     for (size_t i = 0; i <= test.num_questions; i++) {
       probabilities.push_back(OneAnswerScoreProbability(i, test));
     }
   }
-
   // Test with two correct answers per question
-  if (test.num_correct == 2) {
-    // Code Here
+  else if (test.num_correct == 2) {
+    for (size_t i = 0; i <= test.num_questions; i++) {
+      probabilities.push_back(OneAnswerScoreProbability(i, test));
+    }
   }
 
   return probabilities;
