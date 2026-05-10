@@ -42,6 +42,16 @@ std::string PrintCentered(int int_text, int spaces) {
   oss <<std::left << std::setw(left_padding) << "" << text << std::left << std::setw(right_padding) <<"";
   return oss.str();
 }
+std::string PrintCentered(double int_text, int spaces) {
+  std::string text = std::to_string(int_text);
+  //cout << "text: "<<text<<"| int_text: "<<int_text;
+  spaces -= (text.length());
+  int left_padding = spaces/2;
+  int right_padding = spaces - left_padding;
+  std::ostringstream oss;
+  oss <<std::left << std::setw(left_padding) << "" << text << std::left << std::setw(right_padding) <<"";
+  return oss.str();
+}
 void PromptYN(char &answer) {
   while (
     !(cin >> answer) || 
@@ -51,19 +61,20 @@ void PromptYN(char &answer) {
     ClearStream();
   }
 }
-void PrintResult(int& num_options_per_questions, int& num_questions, int& num_correct_answers, int& cutoff) {
+void PrintResult(int& num_options_per_questions, int& num_questions, int& num_correct_answers, int cutoff) {
   //Probability::BinomialCoefficient(num_questions, num_options_per_questions);
   //Probability Calculator;
-  TestInfo TestObj = Probability::CreateTest(num_options_per_questions, num_correct_answers, num_questions);
+  TestInfo TestObj = Probability::CreateTest(num_correct_answers, num_options_per_questions, num_questions);
   std::vector<double> res = Probability::CalculateTestResults(TestObj);
   double prob = Probability::CutoffProbability(cutoff, res);
   cout << " |———————————————————————————————————————|\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Options Per Question  " << "| " << PrintCentered(num_options_per_questions, DISPLAY_NUM) << " |\n";
-  cout << std::left << std::setw(DISPLAY_W) << " | Total Questions  " << "| " << PrintCentered(num_questions, DISPLAY_NUM) << " |\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Correct Answer Per Questions  " << "| " << PrintCentered(num_correct_answers, DISPLAY_NUM) << " |\n";
+  cout << std::left << std::setw(DISPLAY_W) << " | Total Questions  " << "| " << PrintCentered(num_questions, DISPLAY_NUM) << " |\n";
+
   cout << std::left << std::setw(DISPLAY_W) << " | Cutoff  " << "| " << PrintCentered(cutoff, DISPLAY_NUM) << " |\n";
   cout << " |———————————————————————————————————————|\n";
-  cout << std::left << std::setw(DISPLAY_W) << " | Probability  " << prob <<" |\n";
+  cout << std::left << std::setw(DISPLAY_W-3) << " | Probability" << PrintCentered(prob, DISPLAY_NUM) << " |\n";
   cout << " |———————————————————————————————————————|\n";
 }
 void PromptChar(char &ans, std::vector<char> valid_inputs) {
@@ -158,10 +169,7 @@ int main(int argc, char* argv[]) {
   } else if (CompareCaseInsensitively(mode, 'r')) {
     //ask filename
     cout << "Enter a filename:\n";
-      cout << "test\n";
-
     cin >> file_name;
-      cout << "test\n";
 
     if (!FileUtil::DoesFileExist(file_name)) {
       std::cerr << "This file does not exist.";
