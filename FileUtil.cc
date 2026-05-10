@@ -22,3 +22,12 @@ bool FileUtil::OpenFile(std::fstream& file, std::string filename) {
   }
   return true;
 }
+
+bool FileUtil::ReadFile(std::fstream& file, std::string filename) {
+  file.open(filename);
+  if (!file) {
+    std::cout << "Error: cannot open "<<filename;
+    return false;
+  }
+  return true;
+}
