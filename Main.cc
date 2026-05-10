@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include <math.h>
 
 #include "Probability.h"
 #include "FileUtil.h"
@@ -17,6 +18,13 @@ using std::cin;
 using std::toupper;
 const int DISPLAY_W = 35;
 const int DISPLAY_NUM = 3;
+
+/** File format:
+Options Per Question
+Total question
+Correct Answer Per Question (default = 1)
+Cutoff
+*/
 
 void ClearStream() {
   cin.clear();
@@ -61,6 +69,12 @@ void PromptYN(char &answer) {
     ClearStream();
   }
 }
+double RoundDecimal(double num, int tensplace) {
+  num = num*tensplace;
+  num = std::round(num);
+  num /= tensplace;
+  return num;
+}
 void PrintResult(int& num_options_per_questions, int& num_questions, int& num_correct_answers, int cutoff) {
   //Probability::BinomialCoefficient(num_questions, num_options_per_questions);
   //Probability Calculator;
@@ -69,12 +83,11 @@ void PrintResult(int& num_options_per_questions, int& num_questions, int& num_co
   double prob = Probability::CutoffProbability(cutoff, res);
   cout << " |———————————————————————————————————————|\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Options Per Question  " << "| " << PrintCentered(num_options_per_questions, DISPLAY_NUM) << " |\n";
-  cout << std::left << std::setw(DISPLAY_W) << " | Correct Answer Per Questions  " << "| " << PrintCentered(num_correct_answers, DISPLAY_NUM) << " |\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Total Questions  " << "| " << PrintCentered(num_questions, DISPLAY_NUM) << " |\n";
-
+  cout << std::left << std::setw(DISPLAY_W) << " | Correct Answer Per Questions  " << "| " << PrintCentered(num_correct_answers, DISPLAY_NUM) << " |\n";
   cout << std::left << std::setw(DISPLAY_W) << " | Cutoff  " << "| " << PrintCentered(cutoff, DISPLAY_NUM) << " |\n";
   cout << " |———————————————————————————————————————|\n";
-  cout << std::left << std::setw(DISPLAY_W-3) << " | Probability" << PrintCentered(prob, DISPLAY_NUM) << " |\n";
+  cout << std::left << std::setw(DISPLAY_W-4) << " | Probability" << PrintCentered(RoundDecimal(prob*100, 1000000), DISPLAY_NUM+1) << "% |\n";
   cout << " |———————————————————————————————————————|\n";
 }
 void PromptChar(char &ans, std::vector<char> valid_inputs) {
@@ -100,7 +113,7 @@ bool CompareCaseInsensitively(int a, int b) {
 int main(int argc, char* argv[]) {
   int num_options_per_questions;
   int num_questions;
-  int num_correct_answers;
+  int num_correct_answers = 1;
   int cutoff;
   char mode = '\0';
   std::string file_name;
@@ -115,11 +128,11 @@ int main(int argc, char* argv[]) {
       ClearStream();
     }
 
-    cout << "Enter the number of correct answers:\n";
+    /*cout << "Enter the number of correct answers:\n";
     while (!(cin >> num_correct_answers) || num_correct_answers <= 0 || num_correct_answers > num_options_per_questions) {
       cout << "Invalid number of correct answers. Must be a nonnegative whole number greater than number of options per question:\n";
       ClearStream();
-    }
+    }*/
 
     cout << "Enter the number of questions:\n";
     while (!(cin >> num_questions) || num_questions <= 0) {
@@ -127,7 +140,7 @@ int main(int argc, char* argv[]) {
       ClearStream();
     }
 
-    cout << "Enter the cutoff (At least how many correct)\n";
+    cout << "Enter the cutoff (At least how many correct):\n";
     while (!(cin >> cutoff) || cutoff <= 0) {
       cout << "Invalid cutoff. Must be a nonnegative whole number:\n";
       ClearStream();
@@ -181,23 +194,22 @@ int main(int argc, char* argv[]) {
       std::string str_num_correct_answers;
       std::string str_cutoff;
       std::getline(file, str_num_options_per_questions, '\n');
-      std::getline(file, str_num_questions, '\n');
       std::getline(file, str_num_correct_answers, '\n');
+      std::getline(file, str_num_questions, '\n');
       std::getline(file, str_cutoff, '\n');
-      cout<<str_cutoff;
       //cout<<"str_num_options_per_questions: " << str_num_options_per_questions<<"\n";
       //cout<<"str_num_questions: " << str_num_questions<<"\n";
       //cout<<"str_num_correct_answers: " << str_num_correct_answers<<"\n";
       try {
         num_options_per_questions = std::stoi(str_num_options_per_questions);
-        num_questions = std::stoi(str_num_questions);
         num_correct_answers = std::stoi(str_num_correct_answers);
+        num_questions = std::stoi(str_num_questions);
         cutoff = std::stoi(str_cutoff);
       } catch (...) {
         std::cerr << "Unreadable file.";
         return 1;
       }
-      PrintResult(num_options_per_questions, num_questions, num_correct_answers, cutoff);
+      PrintResult(num_options_per_questions, num_correct_answers, num_questions, cutoff);
     }
   }
 
