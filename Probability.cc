@@ -25,6 +25,7 @@ double Probability::OneAnswerScoreProbability(size_t score, TestInfo &test) {
   return probability;
 }
 
+// Unimplemented, ran out of time :(
 double Probability::TwoAnswerScoreProbability(size_t score, TestInfo &test) {
   if (score > test.num_questions * 2)
     return 0;

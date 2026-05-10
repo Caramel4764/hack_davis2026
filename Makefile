@@ -1,8 +1,10 @@
 COMPILER_FLAG = -Wall
 
-run: TestProbability.out ProbabilityCalculator.out
-	./TestProbability.out
+run: ProbabilityCalculator.out
 	./ProbabilityCalculator.out
+
+test: TestProbability.out
+	./TestProbability.out
 
 ProbabilityCalculator.out: Main.cc Probability.o FileUtil.o
 	g++ ${COMPILER_FLAG} Main.cc Probability.o FileUtil.o -o ProbabilityCalculator.out
