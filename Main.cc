@@ -43,10 +43,10 @@ int main(int argc, char* argv[]) {
   int num_correct_answers;
   int display_w = 35;
   int display_num = 3;
-  char mode;
+  char mode = '\0';
   std::string test_name;
   cout << "Would you like to [C]alculate or [R]ead a file?";
-  while (!cin >> mode && mode != 'C' && mode != 'R') {
+  while (!(cin >> mode) && mode != 'C' && mode != 'R') {
     cout << "Invalid Input. Please input C or R";
     ClearStream();
   }
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
         file.close();
       }
     }
-  } else if (mode = 'R') {
+  } else if (mode == 'R') {
     cout << "Reading File";
   }
 
