@@ -14,10 +14,11 @@ The entire project was coded in c++, with a Makefile to automatically compile fi
 Early on, we made the decision to implement the project in c++, as we both have lots of experience in the language. However, multiple hours into the project, when it was too late to pivot, we realized that was a somewhat poor choice of language, and we likely should have gone with Python. On the frontend, Python is very good at processing and displaying strings, while in c++, cout is famously clunky to use. On the Backend, Python dynamically allocates space for integers within RAM, meaning there is no maximum size, while c++ has a maximum integer size of 64 bits, which becomes a serious limitation in scale when the program includes calculating the binomial coefficient. Additionally, Python includes the Decimal data type, which would allow for full precision on decimal values, as opposed to the rounding of c++ doubles.
 
 ## Accomplishments that we're proud of
-Having a working final product by the end of the Hackathon
+* Having a working final product by the end of the Hackathon
+* Written by hand
 
 ## What we learned
-TODO
+We wrote the code by hand, because for this hackathon, we wanted to focus on writing the code outselves. We're both enrolled in a c++ class, although once again, python could have saved so much time. This was the first time we ran into cases where doubles were too small for calculations because factorial grow extrememly fast. Because c++ isn't the best with string formatting, we had to do all of it ourselves with string manipulation. In fact, we had to implement a lot of little things like centering text, prompting inputs safely, and case insensitive comparison. Those were often premade methods in other langauges but c++ was minimal.
 
 ## What's next for Score Probability Calculator
 Allowing it to calculate the score distribution for tests with two correct answers, with potentially even more flexibility in the future!
