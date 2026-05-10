@@ -122,9 +122,9 @@ int main(int argc, char* argv[]) {
   cout << "Would you like to [C]alculate or [R]ead a file?: \n";
   PromptChar(mode, {'C', 'R'});
   if (CompareCaseInsensitively(mode, 'c')) {
-    cout << "Enter the number of options per question:\n";
+    cout << "Enter choices per question:\n";
     while (!(cin >> num_options_per_questions) || num_options_per_questions <= 0) {
-      cout << "Invalid number of options. Must be a nonnegative whole number:\n";
+      cout << "Invalid choices per question. Must be a nonnegative whole number:\n";
       ClearStream();
     }
 
@@ -134,15 +134,15 @@ int main(int argc, char* argv[]) {
       ClearStream();
     }*/
 
-    cout << "Enter the number of questions:\n";
+    cout << "Enter the total number of questions:\n";
     while (!(cin >> num_questions) || num_questions <= 0) {
-      cout << "Invalid number of questions. Must be a nonnegative whole number:\n";
+      cout << "Invalid total number of questions. Must be a nonnegative whole number:\n";
       ClearStream();
     }
 
     cout << "Enter the cutoff (At least how many correct):\n";
-    while (!(cin >> cutoff) || cutoff <= 0) {
-      cout << "Invalid cutoff. Must be a nonnegative whole number:\n";
+    while (!(cin >> cutoff) || cutoff <= 0 || cutoff > num_questions) {
+      cout << "Invalid cutoff. Must be a nonnegative whole number and greater than total questions:\n";
       ClearStream();
     }
     // Calculate result
