@@ -14,9 +14,10 @@ bool FileUtil::DoesFileExist(std::string filename) {
 }
 
 bool FileUtil::OpenFile(std::fstream& file, std::string filename) {
-  file.open(filename);
+  //file.open(filename);
+  file.open(filename, std::fstream::out | std::fstream::trunc);
   if (!file) {
-    std::cerr << "Error: cannot open "<<filename;
+    std::cout << "Error: cannot open "<<filename;
     return false;
   }
   return true;

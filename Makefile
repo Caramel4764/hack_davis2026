@@ -1,7 +1,7 @@
 COMPILER_FLAG = -Wall -Werror
 
 run: ProbabilityCalculator.out
-	./ProbabilityCalculator.out
+	./ProbabilityCalculator.out 3 2 1 Y
 
 ProbabilityCalculator.out: Main.cc Probability.o FileUtil.o
 	g++ ${COMPILER_FLAG} Main.cc Probability.o FileUtil.o -o ProbabilityCalculator.out
