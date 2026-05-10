@@ -184,6 +184,7 @@ int main(int argc, char* argv[]) {
       std::getline(file, str_num_questions, '\n');
       std::getline(file, str_num_correct_answers, '\n');
       std::getline(file, str_cutoff, '\n');
+      cout<<str_cutoff;
       //cout<<"str_num_options_per_questions: " << str_num_options_per_questions<<"\n";
       //cout<<"str_num_questions: " << str_num_questions<<"\n";
       //cout<<"str_num_correct_answers: " << str_num_correct_answers<<"\n";
@@ -191,7 +192,7 @@ int main(int argc, char* argv[]) {
         num_options_per_questions = std::stoi(str_num_options_per_questions);
         num_questions = std::stoi(str_num_questions);
         num_correct_answers = std::stoi(str_num_correct_answers);
-        str_cutoff = std::stoi(str_cutoff);
+        cutoff = std::stoi(str_cutoff);
       } catch (...) {
         std::cerr << "Unreadable file.";
         return 1;
